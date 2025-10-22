@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Timetable</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Navbar */
+    .navbar {
+      background: #161717;
+      padding: 12px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: white;
+    }
+    .navbar h1 {
+      margin: 0;
+      font-size: 20px;
+    }
+    .navbar a {
+      color: white;
+      text-decoration: none;
+      margin-left: 20px;
+      font-weight: bold;
+    }
+    .navbar a:hover {
+      text-decoration: underline;
+    }
+
+    h2 {
+      text-align: center;
+      margin: 20px 0;
+      color: #333;
+    }
+
+    form {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    select {
+      padding: 8px 12px;
+      border-radius: 6px;
+      border: 1px solid #0f0f0f;
+      font-size: 14px;
+    }
+
+    /* Table */
+    table {
+      width: 95%;
+      margin: auto;
+      border-collapse: collapse;
+      background: #fff;
+      box-shadow: 0px 2px 6px rgba(0,0,0,0.1);
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 16px;
+      text-align: center;
+      vertical-align: top;
+    }
+    th {
+      background: #007BFF;
+      color: white;
+    }
+
+    /* Card Style inside td */
+    .slot {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .slot .subject {
+      font-weight: bold;
+      font-size: 16px;
+      margin-bottom: 4px;
+    }
+    .slot .user {
+      font-size: 13px;
+      color: #666;
+      margin-bottom: 10px;
+    }
+
+    /* Buttons */
+    .slot a {
+      text-decoration: none;
+      padding: 8px 14px;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: bold;
+      display: inline-block;
+      width: 25%;
+      text-align: center;
+    }
+    .cancel-btn {
+      background: #dc3545;
+      color: white;
+    }
+    .cancel-btn:hover {
+      background: #a71d2a;
+    }
+    .book-btn {
+      background: #28a745;
+      color: white;
+    }
+    .book-btn:hover {
+      background: #1e7e34;
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation Bar -->
+  <div class="navbar">
+    <h1>Hall Booking System</h1>
+    <div>
+      <a href="/timetable">Timetable</a>
+      <a href="/subjects">Manage Subjects (Admin)</a>
+      <a href="/logout">Logout</a>
+    </div>
+  </div>
+
+  <h2>Timetable</h2>
+  <form method="GET" action="/timetable">
+    <label><b>Select Hall:</b></label>
+    <select name="hall_id" onchange="this.form.submit()">
+      {% for hall in halls %}
+        <option value="{{ hall.id }}" {% if hall.id == selected_hall_id %}selected{% endif %}>{{ hall.name }}</option>
+      {% endfor %}
+    </select>
+  </form>
+
+  <table>
+    <tr>
+      <th>Day / Period</th>
+      {% for p in periods %}
+        <th>{{ p }}</th>
+      {% endfor %}
+    </tr>
+    {% for day in days %}
+    <tr>
+      <td><b>{{ day }}</b></td>
+      {% for p in periods %}
+        {% set booked = bookings|selectattr("day","equalto",day)|selectattr("period","equalto",p)|list %}
+       {% if booked %}
+  <td>
+    <div class="slot">
+      <div class="subject">{{ booked[0]["subject"] }}</div>
+      <div class="user">by {{ booked[0]["username"] }}</div>
+      {% if booked[0]["user_id"] == session["user_id"] %}
+        <a href="/cancel/{{ booked[0]['id'] }}" class="cancel-btn">Cancel</a>
+      {% endif %}
+    </div>
+  </td>
+{% else %}
+  <td>
+    <div class="slot">
+      <a href="/book?day={{ day }}&period={{ p }}&hall_id={{ selected_hall_id }}" class="book-btn">+ Book</a>
+    </div>
+  </td>
+{% endif %}
+
+      {% endfor %}
+    </tr>
+    {% endfor %}
+  </table>
+</body>
+</html>

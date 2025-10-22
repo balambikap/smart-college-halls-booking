@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>ICT Hall Booking System</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
+    body, html { font-family: 'Poppins', sans-serif; }
+
+    nav {
+      position: fixed;
+      width: 100%;
+      top: 0;
+      left: 0;
+      background: rgb(148, 32, 148);
+      padding: 15px 30px;
+      z-index: 1000;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin-left: 20px;
+      font-weight: 500;
+    }
+
+    section {
+      min-height: 100vh;
+      padding: 80px 40px 40px;
+    }
+
+    .home {
+      background: url("{{ url_for('static', filename='images/hall.jpg') }}") no-repeat center center/cover;
+      color: white;
+      text-align: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+
+    .home .overlay {
+      background: rgba(0, 0, 0, 0.5);
+      padding: 40px;
+      border-radius: 10px;
+    }
+
+    .home h1 {
+      font-size: 48px;
+      margin-bottom: 20px;
+    }
+
+    .home p {
+      font-size: 20px;
+    }
+
+    .about {
+      background: url("{{ url_for('static', filename='images/about.jpg') }}") no-repeat center center/cover;
+      color:black;
+      text-align: center;
+      position: relative;
+    }
+
+    .about::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0, 0, 0, 0.2);
+      z-index: 0;
+    }
+
+    .about h2, .about p {
+      position: relative;
+      z-index: 1;
+    }
+
+    .about h2 { font-size: 36px; margin-bottom: 20px; }
+    .about p { font-size: 25px; }
+
+    .view-halls h2 {
+      font-size: 36px;
+      margin-bottom: 20px;
+    }
+
+    .hall-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+
+    .hall-card {
+      background: #eb63ccc2;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    .hall-card img {
+      width: 100%;
+      height: 300px;
+      object-fit: cover;
+    }
+
+    .hall-card .info {
+      padding: 15px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      background: #1e90ff;
+      color: white;
+    }
+
+    @media (max-width: 768px) {
+      .home h1 {
+        font-size: 32px;
+      }
+      .home p {
+        font-size: 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav>
+    <div><strong>Hall Booking</strong></div>
+    <div>
+      <a href="#home">Home</a>
+      <a href="#about">About</a>
+      <a href="#halls">View Halls</a>
+      <a href="/login">Login</a>
+    </div>
+  </nav>
+
+  <!-- Home Section -->
+  <section class="home" id="home">
+    <div class="overlay">
+      <h1>Welcome to Smart College Hall Booking</h1>
+      <p>Book seminar halls with ease and efficiency.</p>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section class="about" id="about">
+    <h2>About Us</h2>
+    <p> 
+The Smart College Hall Booking Portal is designed to make reserving halls quick, easy, and efficient.
+It allows staff to check availability, book halls in real-time, and manage reservations without hassle.
+Our goal is to save time , improve hall utilization, and provide a smooth booking experience for everyone.
+  
+With a user-friendly interface, and smart scheduling,
+we ensure that your events, classes, and meetings are always perfectly organized.
+Together, we’re making hall booking smarter and simpler.
+
+</p>
+  </section>
+  <!-- View Halls Section -->
+  <section class="view-halls" id="halls">
+    <h2>Available Halls</h2>
+    <div class="hall-grid">
+      <div class="hall-card">
+        <img src="{{ url_for('static', filename='images/hall1.jpg') }}" alt="Hall 1">
+        <div class="info">
+          <h3>Dr. A.L Mudaliar Hall</h3>
+          <p>Capacity: 100 people</p>
+        </div>
+      </div>
+      <div class="hall-card">
+        <img src="{{ url_for('static', filename='images/hall2.jpg') }}" alt="Hall 2">
+        <div class="info">
+          <h3>Dr. V. Vasanthi Devi Hall</h3>
+          <p>Capacity: 50 people</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    &copy; 2025 ICT Hall Booking System. All rights reserved.
+  </footer>
+
+</body>
+</html>

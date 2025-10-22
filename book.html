@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Book Slot</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Navbar */
+    .navbar {
+      background: rgba(0, 0, 0, 0.7);
+      padding: 12px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: white;
+    }
+    .navbar h1 {
+      margin: 0;
+      font-size: 20px;
+    }
+    .navbar a {
+      color: white;
+      text-decoration: none;
+      margin-left: 20px;
+      font-weight: bold;
+    }
+    .navbar a:hover {
+      text-decoration: underline;
+    }
+
+    /* Booking Form */
+    .container {
+      width: 420px;
+      margin: auto;
+      background: rgba(255, 255, 255, 0.95);
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0px 6px 12px rgba(0,0,0,0.2);
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #333;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+    }
+    label {
+      margin: 10px 0 5px;
+      font-weight: bold;
+      color: #333;
+    }
+    select, input {
+      padding: 10px;
+      border: 1px solid #aaa;
+      border-radius: 6px;
+      font-size: 14px;
+      margin-bottom: 15px;
+    }
+    button {
+      background: #ff512f;
+      background: linear-gradient(to right, #dd2476, #ff512f);
+      color: white;
+      border: none;
+      padding: 12px;
+      border-radius: 6px;
+      font-size: 15px;
+      cursor: pointer;
+    }
+    button:hover {
+      opacity: 0.9;
+    }
+    .back-link {
+      display: block;
+      text-align: center;
+      margin-top: 15px;
+      text-decoration: none;
+      color: #007BFF;
+      font-weight: bold;
+    }
+    .back-link:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <div class="navbar">
+    <h1>Hall Booking System</h1>
+    <div>
+      <a href="/timetable">Timetable</a>
+      <a href="/subjects">Manage Subjects (Admin)</a>
+      <a href="/logout">Logout</a>
+    </div>
+  </div>
+
+  <!-- Booking Form -->
+  <div class="container">
+    <h2>Book a Slot</h2>
+    <form method="POST">
+      <label>Hall:</label>
+      <select name="hall_id">
+        {% for hall in halls %}
+          <option value="{{ hall.id }}">{{ hall.name }}</option>
+        {% endfor %}
+      </select>
+
+      <label>Day:</label>
+      <input type="text" name="day" value="{{ request.args.get('day','') }}">
+
+      <label>Period:</label>
+      <input type="text" name="period" value="{{ request.args.get('period','') }}">
+
+      <label>Subject:</label>
+      <select name="subject_id">
+        {% for subject in subjects %}
+          <option value="{{ subject.id }}">{{ subject.name }}</option>
+        {% endfor %}
+      </select>
+
+      <button type="submit">Book</button>
+    </form>
+    <a class="back-link" href="/timetable">← Back to Timetable</a>
+  </div>
+
+</body>
+</html>
